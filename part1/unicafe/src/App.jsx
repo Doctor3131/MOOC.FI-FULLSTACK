@@ -56,6 +56,7 @@ const App = () => {
         <Result text={"good"} data={good}/>
         <Result text={"neutral"} data={neutral}/>
         <Result text={"bad"} data={bad}/>
+        
       </div>
     </div>
   )
