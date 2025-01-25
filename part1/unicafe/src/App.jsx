@@ -14,6 +14,14 @@ const Button = ({onClick, text}) => {
   )
 }
 
+const StatisticLine = ({text, value}) => {
+  return (
+    <>
+      {text} {value} <br />
+    </>
+  )
+}
+
 const Statistics = (props) => {
   
   if (props.total === 0) 
@@ -23,14 +31,14 @@ const Statistics = (props) => {
     const positive = (props.good / props.total) * 100
     
     return (
-      <>
-        good {props.good} <br />
-        neutral {props.neutral} <br />
-        bad {props.bad} <br />
-        total {props.total} <br />
-        average {average} <br />
-        positive {positive} % <br />
-      </>
+      <div>
+          <StatisticLine text={"good"} value={props.good}/>
+          <StatisticLine text={"neutral"} value={props.neutral}/>
+          <StatisticLine text={"bad"} value={props.bad}/>
+          <StatisticLine text={"total"} value={props.total}/>
+          <StatisticLine text={"average"} value={average}/>
+          <StatisticLine text={"positive"} value={`${positive} %`}/>
+      </div>
   )}
 }
 
@@ -59,16 +67,6 @@ const App = () => {
     setBad(updateBad)
     console.log("bad", updateBad)
     setTotal(updateBad + neutral + good)
-  }
-
-  const average = () => {
-    if (total === 0) return 0
-    return ((good - bad) / total) 
-  }
-
-  const positive = () => {
-    if (good === 0) return 0
-    return (`${(good / total) * 100} %`) 
   }
 
   return (
