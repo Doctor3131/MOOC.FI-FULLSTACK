@@ -14,9 +14,19 @@ const Button = ({onClick, text}) => {
   )
 }
 
-const Result = ({text, data}) => {
+const Statistics = (props) => {
+  const average = props.total === 0 ? 0 : (props.good - props.bad) / props.total
+  const positive = props.total === 0 ? 0 : (props.good / props.total) * 100
+  
   return (
-    <>{text} {data} <br /></>
+    <>
+      good {props.good} <br />
+      neutral {props.neutral} <br />
+      bad {props.bad} <br />
+      total {props.total} <br />
+      average {average} <br />
+      positive {positive} % <br />
+    </>
   )
 }
 
@@ -67,13 +77,10 @@ const App = () => {
       </div>
       <Header title={"statistics"}/>
       <div id="result">
-        <Result text={"good"} data={good}/>
-        <Result text={"neutral"} data={neutral}/>
-        <Result text={"bad"} data={bad}/>
-        <Result text={"all"} data={total}/>
-        <Result text={"average"} data={average()}/>
-        <Result text={"positive"} data={positive()}/>
-
+        <Statistics good={good}
+                    neutral={neutral}
+                    bad={bad}
+                    total={total}/>
       </div>
     </div>
   )
