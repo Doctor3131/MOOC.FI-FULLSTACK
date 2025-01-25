@@ -6,6 +6,30 @@ const Button = ({text, onClick}) => {
   )
 }
 
+const Header = ({title}) => {
+  return (
+    <h1>{title}</h1>
+  )
+} 
+
+const Content = (props) => {
+  return (
+    <div>
+        {props.anecdotes[props.selected]} <br />
+        has {props.votes[props.selected]} votes<br />
+    </div>
+  )
+}
+
+const ContentMax = ({max, anecdotes, votes}) => {
+  return (
+    <div>
+        {anecdotes[votes.indexOf(max)]} <br />
+        has {max} votes<br />
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -20,6 +44,7 @@ const App = () => {
   
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState([0,0,0,0,0,0,0,0])
+  const max = Math.max(...votes)
 
   const nextRandom = () => {
     let random = Math.floor(Math.random() * anecdotes.length)
@@ -35,15 +60,28 @@ const App = () => {
     setVotes(copy)
   }
   
-  return (
-    <div>
-      {anecdotes[selected]} <br />
-      has {votes[selected]} votes<br />
-      <Button text={"vote"} onClick={upVote}/>
-      <Button text={"next anecdote"} onClick={nextRandom}/>
-      {console.log(votes)}
-    </div>
-  )
+  if (max === 0 || max === votes[selected])
+    return (
+      <>
+        <Header title={"Anecdote of the day"}/>
+        <Content anecdotes={anecdotes} votes={votes} selected={selected}/>
+        <Button text={"vote"} onClick={upVote}/>
+        <Button text={"next anecdote"} onClick={nextRandom}/>
+      </>
+    )
+  else {
+    return (
+      <>
+        <Header title={"Anecdote of the day"}/>
+        <Content anecdotes={anecdotes} votes={votes} selected={selected}/>
+        <Button text={"vote"} onClick={upVote}/>
+        <Button text={"next anecdote"} onClick={nextRandom}/>
+        <br />
+        <Header title={"Anecdote with most votes"}/>
+        <ContentMax anecdotes={anecdotes} votes={votes} max={max}/>
+      </>
+    )
+  }
 }
 
 export default App
