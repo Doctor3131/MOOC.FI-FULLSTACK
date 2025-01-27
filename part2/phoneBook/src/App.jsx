@@ -9,6 +9,8 @@ const App = () => {
   ])
   const [newNumber, setNewNumber] = useState('')
   const [newName, setNewName] = useState('')
+  const [show, setShow] = useState([{name: '', number: "", id: ""}])
+  const [newShow, setNewShow] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -21,12 +23,15 @@ const App = () => {
   }
 
   const handleNameChange = (event) => {
-    // console.log(event.target.value)
     setNewName(event.target.value)
   }
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
+  }
+
+  const handleShowChange = (event) => {
+    setNewShow(event.target.value)
   }
 
   const checkDuplicate = () => {
@@ -43,18 +48,24 @@ const App = () => {
   const checkFill = () => {
     let valid = (newName === '' || newNumber === '')
     if (valid) window.alert(`Please fill all the form`)
-    console.log(valid)
     return valid
   }
 
-  const search = () => {
-
+  const search = (event) => {
+    event.preventDefault()
+    for (let i = 0; i < persons.length; i++) {
+      if (persons[i].name.match(newShow)) {
+        setShow(show.concat(persons[i]))
+      } 
+    }
   }
 
   return (
     <>
       <h2>Phonebook</h2>
-
+      <form onSubmit={search}>
+        <div>filter shown with<input value={newShow} onChange={handleShowChange}/></div>
+      </form>
       <h2>add a new</h2>
       <form onSubmit={addPerson}>
         <div>name: <input value={newName} onChange={handleNameChange}/></div>
@@ -62,7 +73,7 @@ const App = () => {
         <div><button type='submit'>add</button></div>
       </form>
       <h2>Numbers</h2>
-      {/* <div>{persons.map(person => <div key={person.id}>{person.name} {person.number}</div>)}</div> */}
+      <div>{show.map(person => <div key={person.id}>{person.name} {person.number}</div>)}</div>
     </>
   )
 }
