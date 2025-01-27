@@ -2,20 +2,35 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    {iad: 1, name: 'Arto Hells'}
+    {id: 1, name: 'Arto Hells'}
   ])
   const [newName, setNewName] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
-    const personObject = {id: persons.length + 1, name: newName}
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    if (!checkDuplicate()) {
+      const personObject = {id: persons.length + 1, name: newName}
+      setPersons(persons.concat(personObject))
+      setNewName('')
+    }
+    else {
+      window.alert(`${newName} is already added to phonebook`)
+    }
   }
 
   const handleNameChange = (event) => {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     setNewName(event.target.value)
+  }
+
+  const checkDuplicate = () => {
+    let valid = false
+    for (let i = 0; i < persons.length; i++) {
+      if (persons[i].name === newName) {
+        valid = true
+      } 
+    }
+    return valid
   }
 
   return (
