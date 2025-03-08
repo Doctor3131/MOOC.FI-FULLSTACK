@@ -57,6 +57,19 @@ const App = () => {
     event.preventDefault()
   }
 
+  const deletePerson = id => {
+    const person = persons.find(n => n.id === id)
+    if (window.confirm(`Delete ${person.name}`)) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          console.log("error deleting person")
+        })}
+  } 
+
   const showPersons = newSearch === '' 
     ? persons 
     : persons.filter(person => person.name.toLowerCase().includes(newSearch.toLowerCase()))
@@ -79,7 +92,14 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons  display={showPersons}/>
+      <ul>
+        {showPersons.map(person => 
+          <Persons 
+            key={person.id}
+            person={person}
+            deletePerson={() => deletePerson(person.id)}/>
+        )}
+      </ul>
     </div>
   )
 }
