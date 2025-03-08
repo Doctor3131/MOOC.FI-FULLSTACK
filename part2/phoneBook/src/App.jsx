@@ -9,11 +9,10 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
-  const [display, setDisplay] = useState(persons)
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/persons')
+      .get('http://localhost:3002/persons')
       .then(response => {
         setPersons(response.data)
       })
@@ -41,23 +40,27 @@ const App = () => {
     }
     
     const personObject = {
-      id: persons.length + 1,
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: persons.length + 1 + ''
     }
 
-    setPersons(persons.concat(personObject))
-    setDisplay(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+    axios
+      .post('http://localhost:3002/persons', personObject)
+      .then(response => {
+        setPersons(persons.concat(response.data))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const searchPerson = (event) => {
     event.preventDefault()
-
-    const found = persons.filter(person => person.name.toLowerCase().includes(newSearch.toLowerCase()))
-    setDisplay(found)
   }
+
+  const showPersons = newSearch === '' 
+    ? persons 
+    : persons.filter(person => person.name.toLowerCase().includes(newSearch.toLowerCase()))
 
   return (
     <div>
@@ -77,7 +80,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons  display={newSearch === '' ? persons : display}/>
+      <Persons  display={showPersons}/>
     </div>
   )
 }
