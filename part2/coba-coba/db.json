@@ -2,7 +2,8 @@
   "notes": [
     {
       "id": "1",
-      "important": true
+      "content": "HTML is easy",
+      "important": false
     },
     {
       "id": "2",
@@ -11,12 +12,13 @@
     },
     {
       "id": "3",
-      "important": true
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": false
     },
     {
-      "id": "9874",
-      "content": "siriel",
-      "important": true
+      "content": "siriel bangun",
+      "important": true,
+      "id": "4"
     }
   ]
 }
