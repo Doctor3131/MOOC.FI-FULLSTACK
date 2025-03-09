@@ -2,6 +2,7 @@ import { useState,useEffect } from 'react'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 const App = () => {
@@ -9,6 +10,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
+  const [newMessage, setNewMessage] = useState(null)
+  const [typeMessage, setTypeMessage] = useState('')
 
   useEffect(() => {
     personService
@@ -31,46 +34,49 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
     
+    
+    if (persons.some(person => person.name === newName)) {
+      if (window.confirm(newName + " is already added to phonebook, replace the old number with a new one?")) {
+        const existingPerson = persons.find(person => person.name === newName)
+        const updatedPerson = { ...existingPerson, number: newNumber }
+        
+        personService
+        .update(existingPerson.id, updatedPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(person => 
+            person.id === existingPerson.id ? returnedPerson : person
+          ))
+          showNotification(`Updated ${existingPerson.name}`, 'update')
+          setNewName('')
+          setNewNumber('')
+        })
+        .catch(error => {
+          showNotification(`Information of ${existingPerson.name} has already been removed from server`, 'error')
+          console.log("Error updating person")
+        })
+      }
+      return
+    }
+    
     const personObject = {
       name: newName,
       number: newNumber,
     }
 
-    if (persons.some(person => person.name === newName)) {
-      if (window.confirm(newName + " is already added to phonebook, replace the old number with a new one?")) {
-        const existingPerson = persons.find(person => person.name === newName)
-        const updatedPerson = { ...existingPerson, number: newNumber }
-
-        personService
-          .update(existingPerson.id, updatedPerson)
-          .then(returnedPerson => {
-            setPersons(persons.map(person => 
-              person.id === existingPerson.id ? returnedPerson : person
-            ))
-            setNewName('')
-            setNewNumber('')
-          })
-          .catch(error => {
-            console.log("Error updating person:", error)
-          })
-      }
-      return
-    }
-
-      personService
-        .create(personObject)
-        .then(returnedPerson => {
+    personService
+    .create(personObject)
+    .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          showNotification(`Added ${personObject.name}`, 'added')
           setNewName('')
           setNewNumber('')
       })
   }
 
-
-
   const searchPerson = (event) => {
     event.preventDefault()
   }
+
 
   const deletePerson = id => {
     const person = persons.find(n => n.id === id)
@@ -85,6 +91,13 @@ const App = () => {
         })}
   } 
 
+  const showNotification = (message,type) => {
+    setNewMessage(message)
+    setTypeMessage(type)
+
+    setTimeout(() => setNewMessage(null), 3000)
+  }
+
   const showPersons = newSearch === '' 
     ? persons 
     : persons.filter(person => person.name.toLowerCase().includes(newSearch.toLowerCase()))
@@ -92,6 +105,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={newMessage}
+                    type={typeMessage}/>
 
       <Filter newSearch={newSearch}
               handleSearchChange={handleSearchChange}
@@ -107,14 +123,8 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <ul>
-        {showPersons.map(person => 
-          <Persons 
-            key={person.id}
-            person={person}
-            deletePerson={() => deletePerson(person.id)}/>
-        )}
-      </ul>
+      <Persons persons={showPersons} 
+               deletePerson={deletePerson}/>
     </div>
   )
 }
