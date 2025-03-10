@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import ShowAll from './components/ShowAll'
-import ShowOnePerson from './components/ShowOnePerson'
+import ShowOneCountry from './components/ShowOneCountry'
 import ShowData from './components/ShowData'
 
 const apiKey = import.meta.env.VITE_SOME_KEY
-
 
 const App = () => {
   const [data, setData] = useState([])
   const [name, setName] = useState('')
   const [countriesName, setCountriesName] = useState(null)
-  const [shown, setShown] = useState([])
+  const [shown, setShown] = useState(null)
   const [weather, setWeather] = useState(null)
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -57,7 +56,7 @@ const App = () => {
           }
         });
     }
-  }, [shown])
+  }, [shown, apiKey])
 
   const handleNameChange = (event) => {
     setName(event.target.value)
@@ -68,18 +67,12 @@ const App = () => {
     setCountriesName(name)
   }
 
-  const toggleShown = (countryName) => (
+  const toggleShown = (countryName) => {
 
     shown === countryName 
     ? setShown(null)
     : setShown(countryName)
-
-    // setShown(oldShown => 
-    //   oldShown.includes(countryName)
-    //     ? oldShown.filter(name => name !== countryName)
-    //     : [...oldShown, countryName]
-    // )
-  ) 
+  }
 
   return (
     <div>
@@ -89,7 +82,7 @@ const App = () => {
       </form>
       <ShowData data={data}
                 ShowAll={ShowAll}
-                ShowOnePerson={ShowOnePerson}
+                ShowOneCountry={ShowOneCountry}
                 shown={shown}
                 setShown={setShown}
                 toggleShown={toggleShown}

@@ -1,6 +1,5 @@
-import ShowOnePerson from "./ShowOnePerson"
 
-const ShowAll = ({showResult, shown, toggleShown, weather}) => (
+const ShowAll = ({ShowOneCountry, showResult, shown, toggleShown, weather}) => (
   <>
     {showResult.map(eachData => (
       <li key={eachData.name.common}>
@@ -8,8 +7,8 @@ const ShowAll = ({showResult, shown, toggleShown, weather}) => (
         <button onClick={() => toggleShown(eachData.name.common)}>
           {shown === eachData.name.common ? "Hide" : "Show"}
         </button >
-        {shown === eachData.name.common && <ShowOnePerson country={eachData} 
-                                                          weather={weather}/>}
+        {shown === eachData.name.common && <ShowOneCountry country={eachData} 
+                                                           weather={weather}/>}
       </li>
     ))}
   </>
