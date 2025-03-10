@@ -73,11 +73,6 @@ const App = () => {
       })
   }
 
-  const searchPerson = (event) => {
-    event.preventDefault()
-  }
-
-
   const deletePerson = id => {
     const person = persons.find(n => n.id === id)
     if (window.confirm(`Delete ${person.name}`)) {
@@ -87,6 +82,7 @@ const App = () => {
           setPersons(persons.filter(person => person.id !== id))
         })
         .catch(error => {
+          showNotification(`Information of ${person.name} has already been removed from server`, 'error')
           console.log("error deleting person")
         })}
   } 
@@ -110,8 +106,7 @@ const App = () => {
                     type={typeMessage}/>
 
       <Filter newSearch={newSearch}
-              handleSearchChange={handleSearchChange}
-              searchPerson={searchPerson}/>
+              handleSearchChange={handleSearchChange}/>
 
       <h3>add a new</h3>
 
