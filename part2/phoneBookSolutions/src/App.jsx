@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-
 import Filter from './components/Filter'
 import Notification from './components/Notification'
 import PersonForm from './components/PersonForm'
@@ -92,7 +91,9 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
       <Notification notification={notification} />
-      <Filter filter={filter} setFilter={setFilter} />
+
+      <Filter filter={filter} 
+              setFilter={setFilter} />
 
       <h2>Add a new</h2>
       <PersonForm
@@ -104,7 +105,8 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons persons={personsToShow} onRemove={onRemove} />
+      <Persons persons={personsToShow} 
+               onRemove={onRemove} />
     </div>
   )
 }
