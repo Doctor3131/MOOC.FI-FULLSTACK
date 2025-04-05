@@ -36,7 +36,7 @@ app.get('/api/info', (request, response) => {
                    <p>${date.toString()}</p>`)
 })
 
-app.get('/api/persons/', (request, response) => {
+app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
@@ -57,6 +57,31 @@ app.delete('/api/persons/:id', (request, response) => {
   persons = persons.filter(person => person.id !== id)
 
   response.status(204).end()
+})
+
+const generateId = () => {
+  const maxId = Math.random() * (1000 - 0) + 0
+  return String(maxId)
+}
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+
+  if (!body.name) {
+    return response.status(400).json({
+      error: 'content missing'
+    })
+  }
+
+  const person = {
+    id: generateId(),
+    name: body.name,
+    number: body.number
+  }
+
+  persons = persons.concat(person)
+
+  response.json(person)
 })
 
 const PORT = 3001
