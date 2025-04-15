@@ -56,7 +56,8 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
-  persons = persons.filter(person => person.id !== id)
+  persons = persons.filter(person => 
+    person.id !== id)
 
   response.status(204).end()
 })
@@ -69,9 +70,28 @@ const generateId = () => {
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
-  if (!body.name) {
+  if (!body || !body.name) {
     return response.status(400).json({
       error: 'content missing'
+    })
+  }
+
+  let checkName = persons.find(person => 
+    person.name === body.name)
+
+  let checkNumber = persons.find(person => 
+    person.number === body.number
+  )
+
+  if (checkName) {
+    return response.status(400).json({
+      error: 'name must be unique'
+    })
+  }
+
+  if (checkNumber) {
+    return response.status(400).json({
+      error: 'number must be unique'
     })
   }
 
