@@ -3,6 +3,7 @@ const cors = require('cors')
 
 const app = express()
 app.use(cors())
+app.use(express.static('dist'))
 
 let notes = [
   {
@@ -22,7 +23,7 @@ let notes = [
   },
 ]
 
-const requestLogger = (request, response, next) => {
+const requestLogger = (request, response, next) => {  
   console.log('Method: ', request.method)
   console.log('Path:', request.path)
   console.log('Body: ', request.body)
@@ -48,7 +49,7 @@ app.get('/api/notes/:id', (request, response) => {
   if (note) {
     response.json(note)
   } else {
-    response.status(404).end
+    response.status(404).end()
   }
 })
 
@@ -92,7 +93,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
