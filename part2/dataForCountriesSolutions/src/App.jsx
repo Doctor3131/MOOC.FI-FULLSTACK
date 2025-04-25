@@ -19,21 +19,21 @@ const App = () => {
   const matchedCountries = countries.filter((c) => 
     c.name.common.toLowerCase().includes(search.toLowerCase()))
 
+  const handleSearchChange = (event) => setSearch(event.target.value)
+
   return (
     <>
       <div>
         find countries{' '}
         <input 
           value={search}
-          onChange={(event) => setSearch(event.target.value)}
+          onChange={handleSearchChange}
         />
       </div>
-      {search === ''
-        ? null 
-        : (<CountryList countries={matchedCountries} showCountry={setSearch}/>
-      )}
+      {search && <CountryList countries={matchedCountries} showCountry={setSearch} />}
     </>
   )
 }
 
 export default App
+

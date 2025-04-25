@@ -3,12 +3,12 @@
     {
       "id": "1",
       "content": "HTML is easy",
-      "important": true
+      "important": false
     },
     {
       "id": "2",
       "content": "Browser can execute only JavaScript",
-      "important": false
+      "important": true
     },
     {
       "id": "3",
@@ -16,14 +16,9 @@
       "important": false
     },
     {
-      "content": "siriel bangun",
-      "important": true,
-      "id": "4"
-    },
-    {
-      "id": "6",
-      "content": "a new note...",
-      "important": true
+      "id": "0dd8",
+      "content": "siriel wafa is ganteng",
+      "important": false
     }
   ]
 }

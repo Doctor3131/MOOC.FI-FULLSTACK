@@ -15,7 +15,7 @@ const Notifications = ({notification}) => {
         marginBottom: 10,
     }
 
-    return <div styple={style}>{message}</div>
+    return <div style={style}>{message}</div>
 }
 
 export default Notifications

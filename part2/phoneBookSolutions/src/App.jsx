@@ -18,9 +18,11 @@ const App = () => {
     })
   }, [])
 
+
   const personsToShow = persons.filter((person) =>
     person.name.toLowerCase().includes(filter.toLowerCase())
   )
+
 
   const clearForm = () => {
     setNewName('')
@@ -33,7 +35,7 @@ const App = () => {
       setNotification({ message: null })
     }, 5000)
   }
-
+ 
   const updatePerson = (person) => {
     const ok = window.confirm(
       `${newName} is already added to phonebook, replace the old number with a new one?`

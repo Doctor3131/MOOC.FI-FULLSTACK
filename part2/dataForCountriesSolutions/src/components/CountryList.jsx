@@ -38,6 +38,7 @@ const CountryList = ({ countries, showCountry }) => {
                     {c.name.common}{' '}
                     <button onClick={() => showCountry(c.name.common)}>Show</button>
                 </div>
+
         ))
     }
 
