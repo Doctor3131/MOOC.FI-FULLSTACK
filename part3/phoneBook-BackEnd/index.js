@@ -82,34 +82,33 @@ app.post('/api/persons', (request, response) => {
     })
   }
 
-  let checkName = persons.find(person => 
-    person.name === body.name)
+  // let checkName = persons.find(person => 
+  //   person.name === body.name)
 
-  let checkNumber = persons.find(person => 
-    person.number === body.number
-  )
+  // let checkNumber = persons.find(person => 
+  //   person.number === body.number
+  // )
 
-  if (checkName) {
-    return response.status(400).json({
-      error: 'name must be unique'
-    })
-  }
+  // if (checkName) {
+  //   return response.status(400).json({
+  //     error: 'name must be unique'
+  //   })
+  // }
 
-  if (checkNumber) {
-    return response.status(400).json({
-      error: 'number must be unique'
-    })
-  }
+  // if (checkNumber) {
+  //   return response.status(400).json({
+  //     error: 'number must be unique'
+  //   })
+  // }
 
-  const person = {
-    id: generateId(),
+  const person = new Person({
     name: body.name,
-    number: body.number
-  }
+    number: body.number,
+  })
 
-  persons = persons.concat(person)
-
-  response.json(person)
+  person.save().then(savePerson => {
+    response.json(savePerson)
+  })
 })
 
 const PORT = process.env.PORT
