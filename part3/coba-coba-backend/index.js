@@ -1,30 +1,11 @@
 require('dotenv').config()
 const express = require('express')
-const mongoose = require('mongoose')
 const Note = require('./models/note')
-
-const password = process.argv[2]
-const url = `mongodb+srv://sirielfahri:${password}@cluster0.td6raz5.mongodb.net/noteApp?retryWrites=true&w=majority&appName=Cluster0`
-
-mongoose.set('strictQuery',false)
-mongoose.connect(url)
-
-const noteSchema = new mongoose.Schema({
-    content: String,
-    important: Boolean,
-})
-
-noteSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
-
-
 const app = express()
+
 app.use(express.static('dist'))
+app.use(express.json())
+
 
 let notes = [
   {
@@ -52,7 +33,6 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
-app.use(express.json())
 app.use(requestLogger)
 
 app.get('/', (request, response) => {
