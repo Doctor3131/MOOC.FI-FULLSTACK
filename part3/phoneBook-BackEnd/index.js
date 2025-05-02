@@ -59,25 +59,6 @@ app.post('/api/persons', (request, response) => {
     })
   }
 
-  // let checkName = persons.find(person => 
-  //   person.name === body.name)
-
-  // let checkNumber = persons.find(person => 
-  //   person.number === body.number
-  // )
-
-  // if (checkName) {
-  //   return response.status(400).json({
-  //     error: 'name must be unique'
-  //   })
-  // }
-
-  // if (checkNumber) {
-  //   return response.status(400).json({
-  //     error: 'number must be unique'
-  //   })
-  // }
-
   const person = new Person({
     name: body.name,
     number: body.number,
