@@ -13,6 +13,21 @@ Content-Type: application/json
 
 {
     "name": "Siriel Wafa",
-    "number": "0987687643"
+    "number": "1234556"
 }
+###
+POST http://localhost:3001/api/persons HTTP/1.1
+Content-Type: application/json
 
+{
+    "name": "Siriel Wafas",
+    "number": "040-22334455"
+}
+###
+POST http://localhost:3001/api/persons HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Siriel Wafa",
+    "number": "10-22-334455"
+}
