@@ -19,21 +19,24 @@ const App = () => {
       .then(initialPersons => setPersons(initialPersons))
   }, [])
 
+
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
+
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
 
+
   const handleSearchChange = (event) => {
     setNewSearch(event.target.value)
   }
 
+
   const addPerson = (event) => {
-    event.preventDefault()
-    
+    event.preventDefault()  
     
     if (persons.some(person => person.name === newName)) {
       if (window.confirm(newName + " is already added to phonebook, replace the old number with a new one?")) {
@@ -68,10 +71,16 @@ const App = () => {
     .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
           showNotification(`Added ${personObject.name}`, 'added')
-          setNewName('')
-          setNewNumber('')
+
       })
+    .catch(error => {
+      showNotification(error.response?.data?.error || error.message, 'error')
+    
+    setNewName('')
+    setNewNumber('')
+    })
   }
+
 
   const deletePerson = id => {
     const person = persons.find(n => n.id === id)
@@ -87,6 +96,7 @@ const App = () => {
         })}
   } 
 
+
   const showNotification = (message,type) => {
     setNewMessage(message)
     setTypeMessage(type)
@@ -94,9 +104,11 @@ const App = () => {
     setTimeout(() => setNewMessage(null), 3000)
   }
 
+
   const showPersons = newSearch === '' 
     ? persons 
     : persons.filter(person => person.name.toLowerCase().includes(newSearch.toLowerCase()))
+
 
   return (
     <div>

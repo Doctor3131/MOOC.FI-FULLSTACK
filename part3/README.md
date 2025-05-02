@@ -1,7 +1,7 @@
 # **List command untuk server**
 
 ### **IP ES2**
-IP: 13.236.137.153
+13.236.137.153
 
 ### **Untuk upload file yang dirubah ke server dari local machine**
 rsync -avz --exclude 'node_modules' --exclude '.git' --exclude '.env' \
