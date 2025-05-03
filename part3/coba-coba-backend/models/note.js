@@ -6,7 +6,7 @@ const url = process.env.MONGODB_URI
 
 console.log('connecting to', url)
 mongoose.connect(url)
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch(error => {
@@ -20,7 +20,7 @@ const noteSchema = new mongoose.Schema({
     required: true
   },
   important: Boolean,
-})    
+})
 
 noteSchema.set('toJSON', {
   transform: (document, returnedObject) => {
