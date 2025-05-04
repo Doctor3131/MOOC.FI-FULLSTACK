@@ -53,7 +53,7 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
-        .catch(error => {
+        .catch(() => {
           showNotification(`Information of ${existingPerson.name} has already been removed from server`, 'error')
           console.log("Error updating person")
         })
@@ -90,7 +90,7 @@ const App = () => {
         .then(() => {
           setPersons(persons.filter(person => person.id !== id))
         })
-        .catch(error => {
+        .catch(() => {
           showNotification(`Information of ${person.name} has already been removed from server`, 'error')
           console.log("error deleting person")
         })}

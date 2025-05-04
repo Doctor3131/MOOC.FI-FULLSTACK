@@ -19,7 +19,7 @@ mongodb+srv://sirielfahri:Profesor31@cluster0.td6raz5.mongodb.net/?retryWrites=t
 
 ### **Install eslint**
 npm install eslint @eslint/js --save-dev
-
+W
 ### **initialized eslint locally**
 npx eslint --init
 npm install --save-dev @stylistic/eslint-plugin-js
