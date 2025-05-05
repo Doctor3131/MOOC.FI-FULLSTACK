@@ -2,7 +2,8 @@ const { test,describe } = require('node:test')
 const assert = require('node:assert')
 const listHelper = require('../utils/list_helper')
 
-describe('total likes', () => {
+
+describe('favourite blog', () => {
     const blogs = [
         {
           _id: "5a422a851b54a676234d17f7",
@@ -53,9 +54,14 @@ describe('total likes', () => {
           __v: 0
         }  
       ]
-   
-    test('when list has only one blog, equals the likes of that', () => {
-      const result = listHelper.totalLikes(blogs)
-      assert.strictEqual(result, 36 )
+  
+    test('most fav blog', () => {
+      let result = listHelper.favouriteBlog(blogs)
+      if (result.length === 1) {
+        result = result[0]
+      }
+      assert.deepStrictEqual(result, blogs[2])
+    //   console.log(blogs[2]);
+    //   console.log(result);
     })
   })
