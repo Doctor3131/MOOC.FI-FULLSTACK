@@ -1,4 +1,5 @@
 const morgan = require('morgan')
+const logger = require('./logger')
 
 morgan.token('body', (request) => JSON.stringify(request.body))
 
