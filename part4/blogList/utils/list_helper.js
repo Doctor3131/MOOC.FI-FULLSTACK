@@ -1,37 +1,30 @@
-const dummy = (blogs) => {
-    return 1
+const _ = require('lodash')
+
+const dummy = () => {
+  return 1
 }
 
 const totalLikes = (blogs) => {
-    let a = 0
-
-    blogs.forEach(blog => {
-        a += blog.likes
-    })
-
-    return a
+  return blogs.reduce((sum, blog) => sum += blog.likes, 0)
 }
 
 const favouriteBlog = (blogs) => {
-    let likeTemp = 0
-    let blogTemp = []
+  if (blogs.length === 0) {
+    return []
+  }
+  const maxLikes = Math.max(...blogs.map(blog => blog.likes))
+  const favourite = blogs.filter(blog => blog.likes === maxLikes)
 
-    blogs.forEach(blog => {
-        if (likeTemp < blog.likes) {
-            likeTemp = blog.likes
-            blogTemp = []
-            blogTemp.push(blog)
-        } else if (likeTemp === blog.likes) {
-            likeTemp = blog.likes
-            blogTemp.push(blog)
-        }
-    })
-    return blogTemp
+  return favourite
+}
 
+const authors = (blogs) => {
+  return _.groupBy(blogs, 'author')
 }
 
 module.exports = {
-    dummy,
-    totalLikes,
-    favouriteBlog
+  dummy,
+  totalLikes,
+  favouriteBlog,
+  authors,
 }
