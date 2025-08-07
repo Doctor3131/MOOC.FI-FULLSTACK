@@ -22,3 +22,6 @@ Content-Type: application/json
     "content": "asd", "important": true
 
 }
+###
+DELETE http://localhost:3001/api/Notes/6889bf191dc9820e2e65fa16
+Content-Type: application/json
