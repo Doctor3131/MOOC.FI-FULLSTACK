@@ -1,23 +1,29 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const config = require('./utils/config.js')
+const logger = require('./utils/logger.js')
+const blogsRouter = require('./controllers/blogs.js')
+const middleware = require('./utils/middleware.js')
 
 const app = express()
 
-const blogSchema = mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number,
-})
+logger.info('connecting to', config.MONGODB_URI)
 
-const Blog = mongoose.model('Blog', blogSchema)
-
-const mongoUrl = ''
-mongoose.connect(mongoUrl)
+mongoose
+  .connect(config.MONGODB_URI)
+  .then(() => {
+    console.log('connected to MongoDB')
+  })
+  .catch((error) => {
+    console.log('error connecting to MongoDB', error.message)
+  })
 
 app.use(express.json())
+app.use(middleware.requestLogger)
 
+app.use('/api/blogs', blogsRouter)
 
-
-
-
+const PORT = config.PORT
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
