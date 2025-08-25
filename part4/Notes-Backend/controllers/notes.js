@@ -2,7 +2,7 @@ const notesRouter = require('express').Router()
 const Note = require('../models/note')
 
 notesRouter.get('/', (request, response) => {
-  response('<h1>Hello World</h1>')
+  response.send('<h1>Hello World</h1>')
 })
 
 notesRouter.get('/:id', (request, response, next) => {
