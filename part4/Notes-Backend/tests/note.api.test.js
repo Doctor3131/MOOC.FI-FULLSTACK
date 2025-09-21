@@ -79,7 +79,7 @@ test('note without content is not added', async () => {
 
   const response = await api.get('/api/notes')
 
-  assert.strictEqual(response.body.length, initialNotes.length)
+  assert.strictEqual(response.body.length,)
 })
 
 after(async () => {
