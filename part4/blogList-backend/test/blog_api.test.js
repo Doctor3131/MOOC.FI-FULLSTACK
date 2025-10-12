@@ -29,6 +29,42 @@ describe('HTTP check for the blogs app', () => {
 
     assert.strictEqual(response.body.length, helper.initialBlogs.length)
   })
+
+  test('a valid blog can be added', async () => {
+    const newBlog = {
+      _id: "falsdj alsfdkj aslkdjf",
+      title: "asdfk alsdfjk alsdfkj ",
+      author: "Robert C. Martin",
+      url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
+
+    const contents = blogsAtEnd.map(n => n.title)
+    assert(contents.includes('asdfk alsdfjk alsdfkj '))
+  })
+
+  test('blog without some content flag 400', async () => {
+    const newBlog = {
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const notesAtEnd = await helper.blogsInDb()
+
+    assert.strictEqual(notesAtEnd.length, helper.initialBlogs.length)
+  })
 })
 
 after(async () => {
