@@ -61,10 +61,28 @@ describe('HTTP check for the blogs app', () => {
       .send(newBlog)
       .expect(400)
 
-    const notesAtEnd = await helper.blogsInDb()
+    const blogsAtEnd = await helper.blogsInDb()
 
-    assert.strictEqual(notesAtEnd.length, helper.initialBlogs.length)
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
   })
+
+  describe('deletion of a blog', () => {
+    test('succeeds with status code 204 if id is valid', async () => {
+      const blogsAtStart = await helper.blogsInDb()
+      const blogToDelete = blogsAtStart[0]
+
+      await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+
+      const blogsAtEnd = await helper.blogsInDb()
+
+      const contents = blogsAtEnd.map(n => n.title)
+
+      assert(!contents.includes(blogToDelete.title))
+
+      assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
+    })
+  })
+
 })
 
 after(async () => {
